@@ -8,7 +8,7 @@
 ## Creating a client
 All Tumblr API calls will be made through the `Tumblr` type.  To create a Tumblr client:
 
-    client := gumblr.New(
+    client := tumblr.New(
         "<Insert Consumer Key>",
         "<Insert Consumer Secret",
         "<Insert Oauth Key>",
