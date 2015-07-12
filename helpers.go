@@ -25,9 +25,9 @@ func (api Tumblr) info(url string, responseObject interface{}) {
 	}
 }
 
-// This method GET requests a URL
+// This method GET requests only returning the []byte found
 // url - The GET URL
-func (api Tumblr) get(url string) Response {
+func (api Tumblr) rawGet(url string) []byte {
 	request, err := http.NewRequest("GET", url, nil)
 
 	if err != nil {
@@ -48,8 +48,16 @@ func (api Tumblr) get(url string) Response {
 		log.Fatalln(err)
 	}
 
+	return body
+}
+
+// This method GET requests a URL
+// url - The GET URL
+func (api Tumblr) get(url string) Response {
+	body := api.rawGet(url)
+
 	var response Response
-	err = json.Unmarshal(body, &response)
+	err := json.Unmarshal(body, &response)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -65,6 +73,8 @@ func (api Tumblr) post(url string, params string) Response {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	api.oauthService.Sign(request, &api.config)
 	client := new(http.Client)

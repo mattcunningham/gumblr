@@ -17,13 +17,13 @@ type Meta struct {
 type BlogInfo struct {
 	Blog struct {
 		Title                string `json:"title"`                   // The display title of the blog
-		PostCount            int64  `json:"posts"`                   // The total number of posts to this blog
+		PostCount            int    `json:"posts"`                   // The total number of posts to this blog
 		Name                 string `json:"name"`                    // The short blog name that appears before tumblr.com in a standard blog hostname
-		Updated              int64  `json:"updated"`                 // The time of the most recent post, in seconds since the epoch
+		Updated              int    `json:"updated"`                 // The time of the most recent post, in seconds since the epoch
 		Description          string `json:"description"`             // The blog's description
 		Ask                  bool   `json:"ask"`                     // Indicates whether the blog allows questions
 		AskAnon              bool   `json:"ask_anon"`                // Indicates whether the blog allows anonymous questions
-		Likes                int64  `json:"likes"`                   // Number of likes for this user
+		Likes                int    `json:"likes"`                   // Number of likes for this user
 		IsBlockedFromPrimary bool   `json:"is_blocked_from_primary"` // Indicates whether this blog has been blocked by the calling user's primary blog
 	} `json:"blog"`
 }
@@ -58,15 +58,15 @@ type BlogList struct {
 type BlogPosts struct {
 	BlogInfo          // Each response includes a blog object that is the equivalent of an /info response.
 	Posts      []Post `json:"posts"`
-	TotalPosts int64  `json:"total_posts"` // The total number of post available for this request, useful for paginating through results
+	TotalPosts int    `json:"total_posts"` // The total number of post available for this request, useful for paginating through results
 }
 
 type Post struct {
 	BlogName    string   `json:"blog_name"`    // The short name used to uniquely identify a blog
-	ID          int64    `json:"id"`           // The post's unique ID
+	ID          int      `json:"id"`           // The post's unique ID
 	PostURL     string   `json:"post_url"`     // The location of the post
 	Type        string   `json:"type"`         // The type of post
-	Timestamp   int64    `json:"timestamp"`    // The time of the post, in seconds since the epoch
+	Timestamp   int      `json:"timestamp"`    // The time of the post, in seconds since the epoch
 	Date        string   `json:"date"`         // The GMT date and time of the post, as a string
 	Format      string   `json:"format"`       // The post format: html or markdown
 	ReblogKey   string   `json:"reblog_key"`   // The key used to reblog this post
@@ -85,13 +85,13 @@ type Post struct {
 	Photos  []struct {
 		Caption      string `json:"caption,omitempty"` // user supplied caption for the individual photo
 		OriginalSize struct {
-			Height int64  `json:"height,omitempty"` // height of the image
-			Width  int64  `json:"width,omitempty"`  // width of the image
+			Height int    `json:"height,omitempty"` // height of the image
+			Width  int    `json:"width,omitempty"`  // width of the image
 			URL    string `json:"url,omitempty"`    // location of the photo file
 		} `json:"original_size,omitempty"`
 		AlternateSizes []struct {
-			Height int64  `json:"height,omitempty"` // height of the photo
-			Width  int64  `json:"width,omitempty"`  // width of the photo
+			Height int    `json:"height,omitempty"` // height of the photo
+			Width  int    `json:"width,omitempty"`  // width of the photo
 			URL    string `json:"url,omitempty"`    // Location of the photo file
 		} `json:"alt_sizes,omitempty"` // alternate photo sizes
 	} `json:"photos,omitempty"`
@@ -112,16 +112,16 @@ type Post struct {
 	} `json:"dialogue,omitempty"`
 	// Audio posts
 	AudioPlayer string `json:"player,omitempty"`       // HTML for embedding the audio player
-	PlayCount   int64  `json:"plays,omitempty"`        // Number of times the audio post has been played
+	PlayCount   int    `json:"plays,omitempty"`        // Number of times the audio post has been played
 	AlbumArt    string `json:"album_art,omitempty"`    // Location of the audio file's ID3 album art image
 	Artist      string `json:"artist,omitempty"`       // The audio file's ID3 artist value
 	Album       string `json:"album,omitempty"`        // The audio file's ID3 album value
 	TrackName   string `json:"track_name,omitempty"`   // The audio file's ID3 title value
-	TrackNumber int64  `json:"track_number,omitempty"` // The audio file's ID3 track value
-	Year        int64  `json:"year,omitempty"`         // The audio file's ID3 year value
+	TrackNumber int    `json:"track_number,omitempty"` // The audio file's ID3 track value
+	Year        int    `json:"year,omitempty"`         // The audio file's ID3 year value
 	// Video posts
 	Player []struct {
-		Width     int64  `json:"width,omitempty"`      // the width of the video player
+		Width     int    `json:"width,omitempty"`      // the width of the video player
 		EmbedCode string `json:"embed_code,omitempty"` // HTML for embedding the video player
 	} `json:"player,omitempty"`
 	// Answer posts
@@ -153,11 +153,11 @@ type UserInfo struct {
 
 // /user/following
 type UserFollowing struct {
-	TotalBlogs int64 `json:"total_blogs"` // The number of blogs the user is following
+	TotalBlogs int `json:"total_blogs"` // The number of blogs the user is following
 	Blogs      []struct {
 		Name        string `json:"name"`        // the user name attached to the blog that's being followed
 		URL         string `json:"url"`         // the URL of the blog that's being followed
-		Updated     int64  `json:"updated"`     // the time of the most recent post, in seconds since the epoch
+		Updated     int    `json:"updated"`     // the time of the most recent post, in seconds since the epoch
 		Title       string `json:"title"`       // the title of the blog
 		Description string `json:"description"` // the description of the blog
 	} `json:"blogs"`

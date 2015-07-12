@@ -55,7 +55,7 @@ func (api Tumblr) BlogInfo(blogHostname string) BlogInfo {
 
 // This method returns a URL to a blog's avatar with default size 64
 // blogHostname - The standard or custom blog hostname (e.g., example.tumblr.com, example.com)
-func (api Tumblr) BlogAvatar(blogHostname string) BlogAvatar {
+func (api Tumblr) BlogAvatar(blogHostname string) []byte {
 	return api.BlogAvatarAndSize(blogHostname, 64)
 }
 
@@ -63,11 +63,9 @@ func (api Tumblr) BlogAvatar(blogHostname string) BlogAvatar {
 // blogHostname - The standard or custom blog hostname (e.g., example.tumblr.com, example.com)
 // size - The size of the avatar (square, one value for both length and width).
 //        Must be one of the values: 16, 24, 30, 40, 48, 64, 96, 128, 512
-func (api Tumblr) BlogAvatarAndSize(blogHostname string, size int) BlogAvatar {
-	var blogAvatar BlogAvatar
+func (api Tumblr) BlogAvatarAndSize(blogHostname string, size int) []byte {
 	requestURL := apiBlogUrl + blogHostname + "/avatar/" + strconv.Itoa(size)
-	api.info(requestURL, &blogAvatar)
-	return blogAvatar
+	return api.rawGet(requestURL)
 }
 
 // This method can be used to retrieve the publicly exposed likes from a blog.
@@ -137,11 +135,10 @@ func (api Tumblr) BlogPosts(blogHostname string, params map[string]string) BlogP
 //          * offset - Post number to start at (Default: 0)
 //          * limit - The number of results to return: 1–20, inclusive.
 //          * filter - Specifies the post format to return, other than HTML (text or raw)
-func (api Tumblr) BlogQueuedPosts(blogHostname string, params map[string]string) BlogPosts {
-	var queuedPosts BlogPosts
+func (api Tumblr) BlogQueuedPosts(blogHostname string, params map[string]string) BlogList {
+	var queuedPosts BlogList
 	requestURL := apiBlogUrl + blogHostname + "/posts/queue?"
 	urlParams := url.Values{}
-	urlParams.Set("api_key", api.apiKey)
 	for key, value := range params {
 		urlParams.Set(key, value)
 	}
@@ -219,11 +216,11 @@ func (api Tumblr) PostEdit(blogHostname string, id int, params map[string]string
 // reblogKey - The reblog key for the reblogged post – get the reblog key with a BlogPosts request
 // params - The list of possible parameters are listed above the Post method, along with:
 //          * comment - A comment added to the reblogged post
-func (api Tumblr) PostReblog(blogHostname string, id int, reblogKey int, params map[string]string) Meta {
+func (api Tumblr) PostReblog(blogHostname string, id int, reblogKey string, params map[string]string) Meta {
 	requestURL := apiBlogUrl + blogHostname + "/post/reblog"
 	urlParams := url.Values{}
 	urlParams.Set("id", strconv.Itoa(id))
-	urlParams.Set("reblog_key", strconv.Itoa(reblogKey))
+	urlParams.Set("reblog_key", reblogKey)
 	for key, value := range params {
 		urlParams.Set(key, value)
 	}
@@ -231,7 +228,7 @@ func (api Tumblr) PostReblog(blogHostname string, id int, reblogKey int, params 
 	return response.Meta
 }
 
-// This method is used to delete a blog post to a blog
+// This method is used to delete a blog post from a blog
 // blogHostname - The standard or custom blog hostname (e.g., example.tumblr.com, example.com)
 // id - The ID of the post to delete
 func (api Tumblr) PostDelete(blogHostname string, id int) Meta {
@@ -359,11 +356,12 @@ func (api Tumblr) UserUnlike(id int, reblogKey string) Meta {
 //                     on the post object for pagination.
 //          * limit - The number of results to return: 1–20, inclusive
 //          * filter - Specifies the post format to return, other than HTML (text or raw)
-func (api Tumblr) TaggedPosts(tag string, params map[string]string) BlogList {
-	var taggedPosts BlogList
+func (api Tumblr) TaggedPosts(tag string, params map[string]string) []Post {
+	var taggedPosts []Post
 	requestURL := apiTaggedUrl
 	urlParams := url.Values{}
 	urlParams.Set("tag", tag)
+	urlParams.Set("api_key", api.apiKey)
 	for key, value := range params {
 		urlParams.Set(key, value)
 	}
