@@ -154,40 +154,40 @@ func (api Tumblr) BlogQueuedPosts(blogHostname string, params map[string]string)
 // blogHostname - The standard or custom blog hostname (e.g., example.tumblr.com, example.com)
 // params - A map of the params that are included in this request. Possible parameters:
 //          * type - The type of post to create. Specify one of the following:
-//									 text, photo, quote, link, chat, audio, video
+//                   text, photo, quote, link, chat, audio, video
 //          * state - The state of the post. Specify one of the following:  published, draft, queue, private
 //          * tags - Comma-separated tags for this post
 //          * tweet - Manages the autotweet (if enabled) for this post: set to off for no tweet,
-//										or enter text to override the default tweet
+//                    or enter text to override the default tweet
 //          * date - The GMT date and time of the post, as a string
 //          * format - Sets the format type of post. Supported formats are: html & markdown
 //          * slug - Add a short text summary to the end of the post URL
-// 						TEXT POSTS
+//           TEXT POSTS
 //          * title - The optional title of the post, HTML entities must be escaped
 //          * body - The full post body, HTML allowed
-// 						PHOTO POSTS
+//           PHOTO POSTS
 //          * caption - The user-supplied caption, HTML allowed
 //          * link - The "click-through URL" for the photo
 //          * source - The photo source URL
 //          * data - One or more image files (submit multiple times to create a slide show)
-// 						QUOTE POSTS
+//           QUOTE POSTS
 //          * quote - The full text of the quote, HTML entities must be escpaed
 //          * source - Cited source, HTML allowed
-// 						LINK POSTS
+//           LINK POSTS
 //          * title - The title of the page the link points to, HTML entities should be escaped.
 //          * url - The link
 //          * description - A user-supplied description, HTML allowed.
-// 						CHAT POSTS
+//           CHAT POSTS
 //          * title - The title of the chat
 //          * conversation - The text of the conversation/chat, with dialogue labels (no HTML).
-// 						AUDIO POSTS
+//           AUDIO POSTS
 //          * caption - The user-supplied caption
 //          * external_url - The URL of the site that hosts the audio file (not tumblr)
 //          * data - An audio file
-// 						VIDEO POSTS
-//					* caption - The user-supplied caption
+//           VIDEO POSTS
+//          * caption - The user-supplied caption
 //          * embed - HTML embed code for the video
-//					* data - A video file
+//          * data - A video file
 func (api Tumblr) Post(blogHostname string, params map[string]string) Meta {
 	requestURL := apiBlogUrl + blogHostname + "/post"
 	urlParams := url.Values{}
@@ -355,8 +355,8 @@ func (api Tumblr) UserUnlike(id int, reblogKey string) Meta {
 // tag - The tag on the posts you'd like to retrieve.
 // params - A map of the params that are included in this request. Possible parameters:
 //          * before - The timestamp of when you'd like to see posts before.
-//										 If the Tag is a "featured" tag, use the "featured_timestamp"
-//										 on the post object for pagination.
+//                     If the Tag is a "featured" tag, use the "featured_timestamp"
+//                     on the post object for pagination.
 //          * limit - The number of results to return: 1–20, inclusive
 //          * filter - Specifies the post format to return, other than HTML (text or raw)
 func (api Tumblr) TaggedPosts(tag string, params map[string]string) BlogList {
