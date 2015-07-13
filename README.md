@@ -1,6 +1,5 @@
 # Tumblr
-[![License MIT](https://img.shields.io/npm/l/express.svg)](http://opensource.org/licenses/MIT)
-[![GoDoc](http://godoc.org/github.com/mattcunningham/gumblr?status.png)](http://godoc.org/github.com/mattcunningham/gumblr)
+[![License MIT](https://img.shields.io/npm/l/express.svg)](http://opensource.org/licenses/MIT)[![GoDoc](http://godoc.org/github.com/mattcunningham/gumblr?status.png)](http://godoc.org/github.com/mattcunningham/gumblr)[![Build Status](https://travis-ci.org/mattcunningham/gumblr.svg?branch=master)](http://travis-ci.org/mattcunningham/gumblr)
 
 ## Installing
     go get github.com/mattcunningham/gumblr
