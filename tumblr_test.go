@@ -29,7 +29,10 @@ func setup() {
 func TestNew(t *testing.T) {
 	var credentials map[string]string
 	credentialsFile, err := ioutil.ReadFile("./credentials_test.json")
-	fmt.Println(len(credentialsFile))
+	files, _ := ioutil.ReadDir("./")
+	for _, f := range files {
+		fmt.Println(f.Name())
+	}
 	if err != nil {
 		t.Errorf("error opening the credentials file: %s\n", err)
 	}
