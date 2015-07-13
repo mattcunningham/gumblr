@@ -257,8 +257,8 @@ func (api Tumblr) UserInfo() UserInfo {
 //          * since_id - Return posts that have appeared after this ID
 //          * reblog_info - Indicates whether to return reblog information (specify true or false).
 //          * notes_info - Indicates whether to return notes information (specify true or false).
-func (api Tumblr) UserDashboard(params map[string]string) BlogPosts {
-	var userDashboard BlogPosts
+func (api Tumblr) UserDashboard(params map[string]string) BlogList {
+	var userDashboard BlogList
 	requestURL := apiUserUrl + "dashboard?"
 	urlParams := url.Values{}
 	for key, value := range params {

@@ -6,7 +6,6 @@ import (
 	"log"
 	"reflect"
 	"testing"
-	"fmt"
 )
 
 var testClient *Tumblr
@@ -29,10 +28,6 @@ func setup() {
 func TestNew(t *testing.T) {
 	var credentials map[string]string
 	credentialsFile, err := ioutil.ReadFile("./credentials_test.json")
-	files, _ := ioutil.ReadDir("./")
-	for _, f := range files {
-		fmt.Println(f.Name())
-	}
 	if err != nil {
 		t.Errorf("error opening the credentials file: %s\n", err)
 	}
@@ -173,6 +168,14 @@ func TestUserFollowing(t *testing.T) {
 	userInfo := testClient.UserFollowing(make(map[string]string))
 	if userInfo.TotalBlogs <= 0 {
 		t.Errorf("User following didn't return the accurate blog following count")
+	}
+}
+
+func TestUserDashboard(t *testing.T) {
+	setup()
+	blogList := testClient.UserDashboard(make(map[string]string))
+	if len(blogList.Posts) <= 0 {
+		t.Errorf("User dashboard didn't return the accurate blog post count")
 	}
 }
 
