@@ -7,6 +7,6 @@ go:
   - tip
 install:
 - go get github.com/mattcunningham/gumblr
-dd:
+before_install:
 - openssl aes-256-cbc -K $encrypted_a64e0baf4f6a_key -iv $encrypted_a64e0baf4f6a_iv
   -in credentials_test.json.enc -out credentials_test.json -d
