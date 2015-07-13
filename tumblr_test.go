@@ -67,7 +67,10 @@ func TestBlogAvatarAndSize(t *testing.T) {
 
 func TestBlogLikes(t *testing.T) {
 	setup()
-	blogLikes := testClient.BlogLikes("mattcunningham.net", make(map[string]string))
+	params := map[string]string{
+		"limit": "20",
+	}
+	blogLikes := testClient.BlogLikes("mattcunningham.net", params)
 	if blogLikes.LikedCount <= 0 {
 		t.Error("Incorrect like count returned")
 	}
@@ -80,7 +83,10 @@ func TestBlogLikes(t *testing.T) {
 
 func TestBlogFollowers(t *testing.T) {
 	setup()
-	blogFollowers := testClient.BlogFollowers("mattcunningham.net", make(map[string]string))
+	params := map[string]string{
+		"limit": "20",
+	}
+	blogFollowers := testClient.BlogFollowers("mattcunningham.net", params)
 	if blogFollowers.TotalUsers <= 0 {
 		t.Error("Incorrect follower count returned")
 	}
@@ -93,7 +99,10 @@ func TestBlogFollowers(t *testing.T) {
 
 func TestBlogPosts(t *testing.T) {
 	setup()
-	blogPosts := testClient.BlogPosts("staff.tumblr.com", make(map[string]string))
+	params := map[string]string{
+		"limit": "20",
+	}
+	blogPosts := testClient.BlogPosts("staff.tumblr.com", params)
 	if blogPosts.Blog.Name != "staff" {
 		t.Error("Incorrect short blog name")
 	}
@@ -101,7 +110,10 @@ func TestBlogPosts(t *testing.T) {
 
 func TestBlogQueuedPosts(t *testing.T) {
 	setup()
-	queuedPosts := testClient.BlogQueuedPosts("mattcunningham.net", make(map[string]string))
+	params := map[string]string{
+		"limit": "20",
+	}
+	queuedPosts := testClient.BlogQueuedPosts("mattcunningham.net", params)
 	for _, post := range queuedPosts.Posts {
 		if post.BlogName == "" {
 			t.Error("Incorrect short blog name")
@@ -139,7 +151,10 @@ func TestPostEdit(t *testing.T) {
 
 func TestPostReblog(t *testing.T) {
 	setup()
-	response := testClient.PostReblog("testnames.tumblr.com", 122517491420, "kaGXZHdj", make(map[string]string))
+	params := map[string]string{
+		"comment": "Test comment",
+	}
+	response := testClient.PostReblog("testnames.tumblr.com", 122517491420, "kaGXZHdj", params)
 	if response.Status != 201 {
 		t.Errorf("Test reblog was not reblogged, response returned %d", response.Status)
 	}
@@ -147,7 +162,10 @@ func TestPostReblog(t *testing.T) {
 
 func TestPostDelete(t *testing.T) {
 	setup()
-	blogPosts := testClient.BlogPosts("testnames.tumblr.com", make(map[string]string))
+	params := map[string]string{
+		"limit": "20",
+	}
+	blogPosts := testClient.BlogPosts("testnames.tumblr.com", params)
 	blogPost := blogPosts.Posts[0]
 	response := testClient.PostDelete("testnames.tumblr.com", blogPost.ID)
 	if response.Status != 200 {
@@ -163,19 +181,36 @@ func TestUserInfo(t *testing.T) {
 	}
 }
 
-func TestUserFollowing(t *testing.T) {
+func TestUserDashboard(t *testing.T) {
 	setup()
-	userInfo := testClient.UserFollowing(make(map[string]string))
-	if userInfo.TotalBlogs <= 0 {
-		t.Errorf("User following didn't return the accurate blog following count")
+	params := map[string]string{
+		"limit": "20",
+	}
+	blogList := testClient.UserDashboard(params)
+	if len(blogList.Posts) <= 0 {
+		t.Errorf("User dashboard didn't return the accurate blog post count")
 	}
 }
 
-func TestUserDashboard(t *testing.T) {
+func TestUserLikes(t *testing.T) {
 	setup()
-	blogList := testClient.UserDashboard(make(map[string]string))
-	if len(blogList.Posts) <= 0 {
-		t.Errorf("User dashboard didn't return the accurate blog post count")
+	params := map[string]string{
+		"limit": "20",
+	}
+	userLikes := testClient.UserLikes(params)
+	if userLikes.LikedCount <= 0 {
+		t.Errorf("User like count didn't return the accurate count")
+	}
+}
+
+func TestUserFollowing(t *testing.T) {
+	setup()
+	params := map[string]string{
+		"limit": "20",
+	}
+	userInfo := testClient.UserFollowing(params)
+	if userInfo.TotalBlogs <= 0 {
+		t.Errorf("User following didn't return the accurate blog following count")
 	}
 }
 
@@ -213,7 +248,10 @@ func TestUserUnlike(t *testing.T) {
 
 func TestTaggedPosts(t *testing.T) {
 	setup()
-	taggedPosts := testClient.TaggedPosts("gif", make(map[string]string))
+	params := map[string]string{
+		"limit": "20",
+	}
+	taggedPosts := testClient.TaggedPosts("gif", params)
 	if len(taggedPosts) <= 0 {
 		t.Error("Tagged posts 'gif' did not properly return posts")
 	}
