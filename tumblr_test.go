@@ -6,6 +6,7 @@ import (
 	"log"
 	"reflect"
 	"testing"
+	"fmt"
 )
 
 var testClient *Tumblr
@@ -28,6 +29,7 @@ func setup() {
 func TestNew(t *testing.T) {
 	var credentials map[string]string
 	credentialsFile, err := ioutil.ReadFile("./credentials_test.json")
+	fmt.Println(len(credentialsFile))
 	if err != nil {
 		t.Errorf("error opening the credentials file: %s\n", err)
 	}
