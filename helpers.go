@@ -21,7 +21,11 @@ func (api Tumblr) info(url string, responseObject interface{}) {
 
 	err := json.Unmarshal(response.Response, &responseObject)
 	if err != nil {
-		log.Fatalln(err)
+		//log.Println(string(response.Response))
+		// Looks like sometimes source_title is being returned as "false"
+		// and marshaller freaks because it should be a string.
+		//log.Fatalln(err)
+		log.Println("Gumblr marshalling failure.")
 	}
 }
 
