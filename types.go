@@ -76,6 +76,7 @@ type Post struct {
 	SourceURL   string   `json:"source_url"`   // The URL for the source of the content (for quotes, reblogs, etc.)
 	SourceTitle string   `json:"source_title"` // The title of the source site
 	Liked       bool     `json:"liked"`        // Indicates if a user has already liked a post or not
+	NoteCount   int      `json:"note_count"`   // Indicates total count of likes, reposts, etc...
 	State       string   `json:"state"`        // Indicates the current state of the post
 	// Text posts
 	Title string `json:"title,omitempty"` // The optional title of the post
