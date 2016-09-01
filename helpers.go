@@ -44,6 +44,7 @@ func (api Tumblr) rawGet(url string) []byte {
 
 	if err != nil {
 		log.Println(err)
+		return []byte{0}
 	}
 	defer clientResponse.Body.Close()
 
