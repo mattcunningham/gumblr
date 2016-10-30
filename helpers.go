@@ -15,13 +15,17 @@ import (
 func (api Tumblr) info(url string, responseObject interface{}) {
 	response := api.get(url)
 	if response.Meta.Status != 200 {
-		log.Fatalln(fmt.Sprintf("http get error: response status %d with %s",
+		log.Println(fmt.Sprintf("http get error: response status %d with %s",
 			response.Meta.Status, response.Meta.Msg))
 	}
 
 	err := json.Unmarshal(response.Response, &responseObject)
 	if err != nil {
-		log.Fatalln(err)
+		//log.Println(string(response.Response))
+		// Looks like sometimes source_title is being returned as "false"
+		// and marshaller freaks because it should be a string.
+		//log.Println(err)
+		log.Println("Gumblr marshalling failure.")
 	}
 }
 
@@ -31,7 +35,7 @@ func (api Tumblr) rawGet(url string) []byte {
 	request, err := http.NewRequest("GET", url, nil)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	api.oauthService.Sign(request, &api.config)
@@ -39,13 +43,14 @@ func (api Tumblr) rawGet(url string) []byte {
 	clientResponse, err := client.Do(request)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		return []byte{0}
 	}
 	defer clientResponse.Body.Close()
 
 	body, err := ioutil.ReadAll(clientResponse.Body)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	return body
@@ -59,7 +64,7 @@ func (api Tumblr) get(url string) Response {
 	var response Response
 	err := json.Unmarshal(body, &response)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	return response
 }
@@ -71,7 +76,7 @@ func (api Tumblr) post(url string, params string) Response {
 	request, err := http.NewRequest("POST", url, strings.NewReader(params))
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
@@ -81,19 +86,19 @@ func (api Tumblr) post(url string, params string) Response {
 	clientResponse, err := client.Do(request)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	defer clientResponse.Body.Close()
 
 	body, err := ioutil.ReadAll(clientResponse.Body)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	var response Response
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	return response
 }
